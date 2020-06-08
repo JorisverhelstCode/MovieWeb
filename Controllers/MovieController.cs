@@ -20,13 +20,7 @@ namespace MovieWeb.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Movie> moviesFromDb = _movieDatabase.GetMovies();
-            List<MovieListViewModel> movies = new List<MovieListViewModel>();
-            foreach (Movie movie in moviesFromDb)
-            {
-                movies.Add(new MovieListViewModel() { ID = movie.ID, Title = movie.Title });
-            }
-            return View(movies);
+            return View(CreateList());
         }
 
         public IActionResult Detail(int id)
@@ -53,18 +47,31 @@ namespace MovieWeb.Controllers
             if (!TryValidateModel(movie))
             {
                 return View(movie);
-            }
-            Movie newMovie = new Movie()
+            } else
             {
-                Title = movie.Title,
-                Genre = movie.Genre,
-                Description = movie.Description,
-                Producer = movie.Producer,
-                ReleaseDate = movie.ReleaseDate
-            };
+                Movie newMovie = new Movie()
+                {
+                    Title = movie.Title,
+                    Genre = movie.Genre,
+                    Description = movie.Description,
+                    Producer = movie.Producer,
+                    ReleaseDate = movie.ReleaseDate
+                };
 
-            _movieDatabase.Insert(newMovie);
-            return View(newMovie);
+                _movieDatabase.Insert(newMovie);
+                return View("Index", CreateList());
+            }
+        }
+
+        public List<MovieListViewModel> CreateList()
+        {
+            IEnumerable<Movie> moviesFromDb = _movieDatabase.GetMovies();
+            List<MovieListViewModel> movies = new List<MovieListViewModel>();
+            foreach (Movie movie in moviesFromDb)
+            {
+                movies.Add(new MovieListViewModel() { ID = movie.ID, Title = movie.Title });
+            }
+            return movies;
         }
     }
 }
