@@ -9,7 +9,6 @@ using MovieWeb.Models;
 
 namespace MovieWeb.Controllers
 {
-    [Route("Home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,20 +18,16 @@ namespace MovieWeb.Controllers
             _logger = logger;
         }
 
-        [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("/Privacy")]
-        [Route("/Important")]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        [Route("Contact")]
         public IActionResult Contact()
         {
             return View();

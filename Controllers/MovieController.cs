@@ -9,7 +9,6 @@ using MovieWeb.Models;
 
 namespace MovieWeb.Controllers
 {
-    [Route("Movie")]
     public class MovieController : Controller
     {
         private readonly IMovieDatabase _movieDatabase;
@@ -19,7 +18,6 @@ namespace MovieWeb.Controllers
             _movieDatabase = movieDatabase;
         }
 
-        [Route("Index")]
         public IActionResult Index()
         {
             IEnumerable<Movie> moviesFromDb = _movieDatabase.GetMovies();
@@ -31,7 +29,6 @@ namespace MovieWeb.Controllers
             return View(movies);
         }
 
-        [Route("Details")]
         public IActionResult Detail(int id)
         {
             Movie movieFromDb = _movieDatabase.GetMovie(id);
@@ -53,6 +50,10 @@ namespace MovieWeb.Controllers
         [HttpPost]
         public IActionResult Create(MovieCreateViewModel movie)
         {
+            if (!TryValidateModel(movie))
+            {
+                return View(movie);
+            }
             Movie newMovie = new Movie()
             {
                 Title = movie.Title,
@@ -61,6 +62,8 @@ namespace MovieWeb.Controllers
                 Producer = movie.Producer,
                 ReleaseDate = movie.ReleaseDate
             };
+
+            _movieDatabase.Insert(newMovie);
             return View(newMovie);
         }
     }
