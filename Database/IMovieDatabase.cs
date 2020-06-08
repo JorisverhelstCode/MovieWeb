@@ -80,7 +80,7 @@ namespace MovieWeb.Controllers
                     ReleaseDate = new DateTime(1995, 5, 6),
                     Genre = "Animation"
                 };
-                _movies.Add(lionking);
+                Insert(lionking);
 
                 Movie fellowship = new Movie()
                 {
@@ -90,7 +90,7 @@ namespace MovieWeb.Controllers
                     ReleaseDate = new DateTime(2001, 3, 6),
                     Genre = "Fantasy"
                 };
-                _movies.Add(fellowship);
+                Insert(fellowship);
 
                 Movie twotowers = new Movie()
                 {
@@ -100,17 +100,17 @@ namespace MovieWeb.Controllers
                     ReleaseDate = new DateTime(2002, 9, 4),
                     Genre = "Fantasy"
                 };
-                _movies.Add(twotowers);
+                Insert(twotowers);
 
                 Movie returnking = new Movie()
                 {
                     Producer = "Peter Jackson",
-                    Title = "The lion king",
+                    Title = "Return of the king",
                     Description = "A film about a young lion growing up to become the king of his pack",
                     ReleaseDate = new DateTime(2004, 2, 26),
                     Genre = "Fantasy"
                 };
-                _movies.Add(returnking);
+                Insert(returnking);
             }
         }
     }

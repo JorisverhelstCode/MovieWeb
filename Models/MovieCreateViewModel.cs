@@ -20,7 +20,7 @@ namespace MovieWeb.Models
         [MaxLength(20, ErrorMessage = "Het genre heeft een maximum lengte van 20 karakters!")]
         public String Genre { get; set; }
 
-        [MaxLength(30, ErrorMessage = "De omschrijving heeft een maximum lengte van 250 karakters!")]
+        [MaxLength(250, ErrorMessage = "De omschrijving heeft een maximum lengte van 250 karakters!")]
         [DisplayName("Omschrijving")]
         public String Description { get; set; }
 
