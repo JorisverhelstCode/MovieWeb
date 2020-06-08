@@ -5,16 +5,18 @@
     All current movies:
 </h1>
 <table>
-    @{ 
+    @{
         foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Title</td>
-                <a href="~/js/"></a>
-            </tr>
+        <tr>
+            <td>@item.Title</td>
+            <td>
+                <a asp-controller="Movie" asp-action="Detail" asp-route-id="@item.ID">Detail</a>
+            </td>
+        </tr>
+
         }
     }
 </table>
-<p>
-    <button onclick="BtnCreateOnClickEvent">Create new movie</button>
-</p>
+
+<a asp-controller="Movie" asp-action="Create">Create new movie</a>

@@ -59,7 +59,7 @@ namespace MovieWeb.Controllers
                 };
 
                 _movieDatabase.Insert(newMovie);
-                return View("Index", CreateList());
+                return RedirectToAction("Index");
             }
         }
 
