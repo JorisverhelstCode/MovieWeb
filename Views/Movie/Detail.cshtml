@@ -7,10 +7,35 @@
 <p>@Model.Description</p>
 
 <strong>Genre</strong>
-<p>@Model.Genre</p>
+<p>@GetGenre(@Model.Genre)</p>
 
 <strong>Release date</strong>
-<p>@Model.ReleaseDate</p>
+<p>@CalculateReleaseDateMessage(@Model.ReleaseDate)</p>
 
 <strong>Studio</strong>
 <p>@Model.Producer</p>
+
+
+@functions {
+    String CalculateReleaseDateMessage(DateTime releaseDate)
+    {
+        if(releaseDate > DateTime.Now)
+        {
+            return (releaseDate - DateTime.Now).Days + " days until release! " + "(" + releaseDate.ToString() + ")";
+        } else
+        {
+            return "Out Now! " + "(" + releaseDate.ToString() + ")";
+        }
+    }
+
+    String GetGenre(String genre)
+    {
+        if (genre == "")
+        {
+            return "There is no genre";
+        } else
+        {
+            return genre;
+        }
+    }
+}

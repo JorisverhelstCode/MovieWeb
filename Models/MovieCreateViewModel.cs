@@ -15,7 +15,6 @@ namespace MovieWeb.Models
         [MaxLength(30, ErrorMessage ="De titel heeft een maximum lengte van 30 karakters!")]
         public String Title { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "De film moet een genre hebben!")]
         [DisplayName("Genre")]
         [MinLength(1, ErrorMessage = "Het genre heeft een minimum lengte van 1 karakters!")]
         [MaxLength(20, ErrorMessage = "Het genre heeft een maximum lengte van 20 karakters!")]
