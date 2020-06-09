@@ -9,5 +9,6 @@ namespace MovieWeb.Models
     {
         public string Title { get; set; }
         public int ID { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

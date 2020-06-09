@@ -17,6 +17,8 @@
 
 <a asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
 
+<a asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.ID" asp-route-returnUrl="Detail">Delete</a>
+
 
 @functions {
     String CalculateReleaseDateMessage(DateTime releaseDate)

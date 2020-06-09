@@ -17,7 +17,7 @@
                 <a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
             </td>
             <td>
-                <button type="submit" class="btn-danger" onclick="return confirm('Ben je zeker dat je @item.Title wil verwijderen?')">Delete</button>
+                <a asp-controller="Movie" asp-action="Delete" asp-route-id="@item.ID" asp-route-returnUrl="Index">Delete</a>
             </td>
         </tr>
 
