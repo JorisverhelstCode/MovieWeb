@@ -69,7 +69,7 @@ namespace MovieWeb.Controllers
         public IActionResult Edit(int id)
         {
             Movie movieFromDb = _movieDatabase.GetMovie(id);
-            MovieEditViewModel movie = new MovieEditViewModel()
+            MovieEditViewModel editView = new MovieEditViewModel()
             {
                 Title = movieFromDb.Title,
                 Description = movieFromDb.Description,
@@ -77,7 +77,7 @@ namespace MovieWeb.Controllers
                 Genre = movieFromDb.Genre,
                 Producer = movieFromDb.Producer
             };
-            return View(movie);
+            return View(editView);
         }
 
         [HttpPost]
