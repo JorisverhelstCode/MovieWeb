@@ -104,6 +104,30 @@ namespace MovieWeb.Controllers
             }
         }
 
+        public IActionResult Delete(int id)
+        {
+            Movie movieFromDb = _movieDatabase.GetMovie(id);
+            MovieDeleteViewModel deleteView = new MovieDeleteViewModel()
+            {
+                Title = movieFromDb.Title,
+                ID = movieFromDb.ID
+            };
+            return View(deleteView);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmDelete(int id, bool confirmed)
+        {
+            if (confirmed)
+            {
+                _movieDatabase.Delete(id);
+                return RedirectToAction("Index");
+            } else
+            {
+                return RedirectToAction("Detail", new { id = id } );
+            }
+        }
+
         public List<MovieListViewModel> CreateList()
         {
             IEnumerable<Movie> moviesFromDb = _movieDatabase.GetMovies();
