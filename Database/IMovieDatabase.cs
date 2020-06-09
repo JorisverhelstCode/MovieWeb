@@ -67,6 +67,7 @@ namespace MovieWeb.Controllers
                     movie.Description = updatedMovie.Description;
                     movie.ReleaseDate = updatedMovie.ReleaseDate;
                     movie.Genre = updatedMovie.Genre;
+                    movie.Producer = updatedMovie.Producer;
                 }
             }
 

@@ -32,7 +32,8 @@ namespace MovieWeb.Controllers
                 Description = movieFromDb.Description,
                 ReleaseDate = movieFromDb.ReleaseDate,
                 Genre = movieFromDb.Genre,
-                Producer = movieFromDb.Producer
+                Producer = movieFromDb.Producer,
+                ID = movieFromDb.ID
             };
             return View(movie);
         }
@@ -72,9 +73,9 @@ namespace MovieWeb.Controllers
             MovieEditViewModel editView = new MovieEditViewModel()
             {
                 Title = movieFromDb.Title,
+                Genre = movieFromDb.Genre,
                 Description = movieFromDb.Description,
                 ReleaseDate = movieFromDb.ReleaseDate,
-                Genre = movieFromDb.Genre,
                 Producer = movieFromDb.Producer
             };
             return View(editView);
