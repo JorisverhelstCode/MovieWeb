@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MovieWeb.Models
 {
-    public class MovieCreateViewModel
+    public class MovieEditViewModel
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "De film moet een titel hebben!")]
         [DisplayName("Titel")]
         [MinLength(1, ErrorMessage = "De titel heeft een minimum lengte van 1 karakters!")]
-        [MaxLength(30, ErrorMessage ="De titel heeft een maximum lengte van 30 karakters!")]
+        [MaxLength(30, ErrorMessage = "De titel heeft een maximum lengte van 30 karakters!")]
         public String Title { get; set; }
 
         [DisplayName("Genre")]

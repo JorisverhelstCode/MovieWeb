@@ -31,7 +31,8 @@ namespace MovieWeb.Controllers
                 Title = movieFromDb.Title,
                 Description = movieFromDb.Description,
                 ReleaseDate = movieFromDb.ReleaseDate,
-                Genre = movieFromDb.Genre
+                Genre = movieFromDb.Genre,
+                Producer = movieFromDb.Producer
             };
             return View(movie);
         }
@@ -62,6 +63,43 @@ namespace MovieWeb.Controllers
 
                 _movieDatabase.Insert(newMovie);
                 return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Movie movieFromDb = _movieDatabase.GetMovie(id);
+            MovieEditViewModel movie = new MovieEditViewModel()
+            {
+                Title = movieFromDb.Title,
+                Description = movieFromDb.Description,
+                ReleaseDate = movieFromDb.ReleaseDate,
+                Genre = movieFromDb.Genre,
+                Producer = movieFromDb.Producer
+            };
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, MovieEditViewModel movie)
+        {
+            if (!TryValidateModel(movie))
+            {
+                return View(movie);
+            }
+            else
+            {
+                Movie edittedMovie = new Movie()
+                {
+                    Title = movie.Title,
+                    Genre = movie.Genre,
+                    Description = movie.Description,
+                    Producer = movie.Producer,
+                    ReleaseDate = movie.ReleaseDate
+                };
+
+                _movieDatabase.Update(id, edittedMovie);
+                return RedirectToAction("Detail", new { id = id });
             }
         }
 

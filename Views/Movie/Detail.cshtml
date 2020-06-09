@@ -15,11 +15,13 @@
 <strong>Studio</strong>
 <p>@Model.Producer</p>
 
+<a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+
 
 @functions {
     String CalculateReleaseDateMessage(DateTime releaseDate)
     {
-        if(releaseDate > DateTime.Now)
+        if(releaseDate.Date > DateTime.Now.Date)
         {
             return (releaseDate - DateTime.Now).Days + " days until release! " + "(" + releaseDate.ToString() + ")";
         } else
