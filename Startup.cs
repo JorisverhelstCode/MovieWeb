@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.CodeAnalysis.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +31,8 @@ namespace MovieWeb
 
             services.AddSingleton<IMovieDatabase, MovieDatabase>();
 
-            services.AddDbContext<MovieDBContext>(options => options.UseSQLServer("Server=(localdb)\\mssqllocaldb;Database=ContactWeb;Trusted_Connection=True;MultipleActiveResultSets=true"));
+            services.AddDbContext<MovieDBContext>(options => 
+            options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MovieWeb;Trusted_Connection=True;MultipleActiveResultSets=true"));
         }
 
 
