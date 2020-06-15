@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieWeb.Controllers.MovieWeb.Database;
+using MovieWeb.Database;
 
 namespace MovieWeb
 {
@@ -27,6 +29,8 @@ namespace MovieWeb
             services.AddControllersWithViews();
 
             services.AddSingleton<IMovieDatabase, MovieDatabase>();
+
+            services.AddDbContext<MovieDBContext>(options => options.UseSQLServer("Server=(localdb)\\mssqllocaldb;Database=ContactWeb;Trusted_Connection=True;MultipleActiveResultSets=true"));
         }
 
 
