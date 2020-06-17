@@ -11,9 +11,11 @@ namespace MovieWeb.Database
     {
         public DbSet<Movie> Movies { get; set; }
 
-        public MovieDBContext(DbContextOptions<MovieDBContext> options) : base (options)
+        public MovieDBContext(DbContextOptions<MovieDBContext> options) : base(options)
         {
 
         }
+
+
     }
 }
