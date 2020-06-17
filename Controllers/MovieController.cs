@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MovieWeb.Controllers.MovieWeb.Database;
+using MovieWeb.Database;
 using MovieWeb.Domain;
 using MovieWeb.Models;
 
@@ -12,20 +14,28 @@ namespace MovieWeb.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieDatabase _movieDatabase;
+        private readonly MovieDBContext _movieDBContext;
 
-        public MovieController(IMovieDatabase movieDatabase)
+        public MovieController(IMovieDatabase movieDatabase, MovieDBContext context)
         {
             _movieDatabase = movieDatabase;
+            _movieDBContext = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(CreateList());
+            IEnumerable<Movie> moviesFromDb = await _movieDBContext.Movies.ToListAsync();
+            List<MovieListViewModel> movies = new List<MovieListViewModel>();
+            foreach (Movie movie in moviesFromDb)
+            {
+                movies.Add(new MovieListViewModel() { ID = movie.ID, Title = movie.Title });
+            }
+            return View(movies);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Movie movieFromDb = _movieDatabase.GetMovie(id);
+            Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
             MovieDetailsViewModel movie = new MovieDetailsViewModel()
             {
                 Title = movieFromDb.Title,
@@ -62,14 +72,15 @@ namespace MovieWeb.Controllers
                     ReleaseDate = movie.ReleaseDate
                 };
 
-                _movieDatabase.Insert(newMovie);
+                _movieDBContext.Movies.Add(newMovie);
+                _movieDBContext.SaveChanges();
                 return RedirectToAction("Index");
             }
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            Movie movieFromDb = _movieDatabase.GetMovie(id);
+            Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
             MovieEditViewModel editView = new MovieEditViewModel()
             {
                 Title = movieFromDb.Title,
@@ -82,7 +93,7 @@ namespace MovieWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, MovieEditViewModel movie)
+        public async Task<IActionResult> Edit(int id, MovieEditViewModel movie)
         {
             if (!TryValidateModel(movie))
             {
@@ -90,23 +101,22 @@ namespace MovieWeb.Controllers
             }
             else
             {
-                Movie edittedMovie = new Movie()
-                {
-                    Title = movie.Title,
-                    Genre = movie.Genre,
-                    Description = movie.Description,
-                    Producer = movie.Producer,
-                    ReleaseDate = movie.ReleaseDate
-                };
+                Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
+                movieFromDb.Title = movie.Title;
+                movieFromDb.Genre = movie.Genre;
+                movieFromDb.Description = movie.Description;
+                movieFromDb.Producer = movie.Producer;
+                movieFromDb.ReleaseDate = movie.ReleaseDate;
 
-                _movieDatabase.Update(id, edittedMovie);
+                _movieDBContext.Movies.Update(movieFromDb);
+                _movieDBContext.SaveChanges();
                 return RedirectToAction("Detail", new { id = id });
             }
         }
 
-        public IActionResult Delete(int id, string returnUrl)
+        public async Task<IActionResult> Delete(int id, string returnUrl)
         {
-            Movie movieFromDb = _movieDatabase.GetMovie(id);
+            Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
             MovieDeleteViewModel deleteView = new MovieDeleteViewModel()
             {
                 Title = movieFromDb.Title,
@@ -117,21 +127,12 @@ namespace MovieWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmDelete(MovieDeleteViewModel deleteModel)
+        public async Task<IActionResult> ConfirmDelete(MovieDeleteViewModel deleteModel)
         {
-            _movieDatabase.Delete(deleteModel.ID);
+            Movie movieFromDb = await _movieDBContext.Movies.FindAsync(deleteModel.ID);
+            _movieDBContext.Movies.Remove(movieFromDb);
+            _movieDBContext.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public List<MovieListViewModel> CreateList()
-        {
-            IEnumerable<Movie> moviesFromDb = _movieDatabase.GetMovies();
-            List<MovieListViewModel> movies = new List<MovieListViewModel>();
-            foreach (Movie movie in moviesFromDb)
-            {
-                movies.Add(new MovieListViewModel() { ID = movie.ID, Title = movie.Title });
-            }
-            return movies;
         }
     }
 }
