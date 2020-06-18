@@ -32,7 +32,7 @@ namespace MovieWeb
             services.AddSingleton<IMovieDatabase, MovieDatabase>();
 
             services.AddDbContext<MovieDBContext>(options => 
-            options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MovieWeb;Trusted_Connection=True;MultipleActiveResultSets=true"));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
 
