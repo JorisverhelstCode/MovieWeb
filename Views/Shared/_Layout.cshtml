@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,6 +35,9 @@
         </nav>
     </header>
     <div class="container">
+        <environment exclude="Production">
+            <div class="ribbon"><span>@_hostingEnvironment.EnvironmentName</span></div>
+        </environment>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
