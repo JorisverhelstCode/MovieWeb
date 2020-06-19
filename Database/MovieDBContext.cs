@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieWeb.Domain;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieWeb.Database
 {
-    public class MovieDBContext : DbContext
+    public class MovieDBContext : IdentityDbContext
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieTag> MovieTags { get; set; }
