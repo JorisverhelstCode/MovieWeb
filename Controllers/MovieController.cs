@@ -13,12 +13,10 @@ namespace MovieWeb.Controllers
 {
     public class MovieController : Controller
     {
-        private readonly IMovieDatabase _movieDatabase;
         private readonly MovieDBContext _movieDBContext;
 
-        public MovieController(IMovieDatabase movieDatabase, MovieDBContext context)
+        public MovieController(MovieDBContext context)
         {
-            _movieDatabase = movieDatabase;
             _movieDBContext = context;
         }
 
@@ -116,14 +114,20 @@ namespace MovieWeb.Controllers
 
         public async Task<IActionResult> Delete(int id, string returnUrl)
         {
-            Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
-            MovieDeleteViewModel deleteView = new MovieDeleteViewModel()
+            if (User.Identity.IsAuthenticated)
             {
-                Title = movieFromDb.Title,
-                ID = movieFromDb.ID,
-                ReturnUrl = returnUrl
-            };
-            return View(deleteView);
+                Movie movieFromDb = await _movieDBContext.Movies.FindAsync(id);
+                MovieDeleteViewModel deleteView = new MovieDeleteViewModel()
+                {
+                    Title = movieFromDb.Title,
+                    ID = movieFromDb.ID,
+                    ReturnUrl = returnUrl
+                };
+                return View(deleteView);
+            } else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
